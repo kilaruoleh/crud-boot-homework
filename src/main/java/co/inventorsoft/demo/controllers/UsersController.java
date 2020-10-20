@@ -25,9 +25,18 @@ public class UsersController {
         usersDao.delete(id);
     }
 
+    @PutMapping("/users")
+    public ResponseEntity<User> updateUser(@RequestBody User user) {
+        usersDao.update(new User(user.getId(), user.getFirstName(), user.getLastName()));
+        User userResponse = new User(user.getId(), user.getFirstName(), user.getLastName());
+        return ResponseEntity.ok(userResponse);
+    }
+
     @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createUser(@RequestBody User user) {
+    public ResponseEntity<User> createUser(@RequestBody User user) {
         usersDao.save(new User(user.getId(), user.getFirstName(), user.getLastName()));
+        User userResponse = new User(user.getId(), user.getFirstName(), user.getLastName());
+        return ResponseEntity.ok(userResponse);
     }
 }
