@@ -21,6 +21,7 @@ public class UsersController {
     }
 
     @DeleteMapping("users/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable Long id) {
         usersDao.delete(id);
     }
@@ -33,10 +34,9 @@ public class UsersController {
     }
 
     @PostMapping("/users")
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<User> createUser(@RequestBody User user) {
         usersDao.save(new User(user.getId(), user.getFirstName(), user.getLastName()));
         User userResponse = new User(user.getId(), user.getFirstName(), user.getLastName());
-        return ResponseEntity.ok(userResponse);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userResponse);
     }
 }
